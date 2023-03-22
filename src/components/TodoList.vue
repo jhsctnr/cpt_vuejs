@@ -6,8 +6,14 @@
         v-bind:key="todoItem.item"
         class="shadow"
       >
-        <i class="checkBtn fa-solid fa-check" v-on:click="toggleComplete"></i>
-        {{ todoItem.item }}
+        <i
+          class="checkBtn fa-solid fa-check"
+          v-bind:class="{ checkBtnCompleted: todoItem.completed }"
+          v-on:click="toggleComplete(todoItem)"
+        ></i>
+        <span v-bind:class="{ textCompleted: todoItem.completed }">
+          {{ todoItem.item }}
+        </span>
         <span class="removeBtn" v-on:click="removeTodo(todoItem.item, index)">
           <i class="fa-solid fa-trash"></i>
         </span>
@@ -28,7 +34,12 @@ export default {
       localStorage.removeItem(item);
       this.todoItems.splice(index, 1);
     },
-    toggleComplete: function () {},
+    toggleComplete: function (todoItem) {
+      todoItem.completed = !todoItem.completed;
+      // 로컬스토리지 데이터 갱신
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    },
   },
   created: function () {
     if (localStorage.length > 0) {
