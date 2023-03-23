@@ -1,33 +1,56 @@
 <template>
   <div class="inputBox shadow">
     <div class="inputContainer">
-      <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo" />
+      <input type="text" v-model="newTodoItem" v-on:keypress.enter="addTodo" />
     </div>
     <span class="addContainer" v-on:click="addTodo">
       <i class="fa-solid fa-plus addBtn"></i>
     </span>
+
+    <TodoModal v-if="showModal" @close="showModal = false">
+      <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+      <h3 slot="header">
+        경고!
+        <i
+          class="fa-solid fa-xmark closeModalBtn"
+          @click="showModal = false"
+        ></i>
+      </h3>
+
+      <span slot="body"> 값을 입력하셔야해유 </span>
+    </TodoModal>
   </div>
 </template>
 
 <script>
+import TodoModal from './common/TodoModal.vue';
+
 export default {
-  data: function () {
+  data() {
     return {
       newTodoItem: '',
+      showModal: false,
     };
   },
   methods: {
-    addTodo: function () {
+    addTodo() {
       // 저장하는 로직
       if (this.newTodoItem !== '') {
-        var obj = { completed: false, item: this.newTodoItem };
-        localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+        this.$emit('addTodoItem', this.newTodoItem);
         this.clearInput();
+      } else {
+        this.showModal = true;
       }
     },
-    clearInput: function () {
+    clearInput() {
       this.newTodoItem = '';
     },
+  },
+  components: {
+    TodoModal: TodoModal,
   },
 };
 </script>
@@ -63,5 +86,8 @@ input:focus {
 .addBtn {
   color: white;
   vertical-align: middle;
+}
+.closeModalBtn {
+  color: #42b983;
 }
 </style>
