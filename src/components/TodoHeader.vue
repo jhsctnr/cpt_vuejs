@@ -1,8 +1,29 @@
 <template>
   <header>
-    <h1>TODO it!</h1>
+    <h1 @click="double = double * 2">TODO it!</h1>
+    <div>{{ num }}</div>
+    <div>{{ double }}</div>
   </header>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      num: 5,
+    };
+  },
+  computed: {
+    double: {
+      get() {
+        return this.num * 2;
+      },
+      set(value) {
+        this.num = value / 2;
+      },
+    },
+  },
+};
+</script>
 
 <style scoped>
 h1 {

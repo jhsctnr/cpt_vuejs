@@ -39,7 +39,8 @@ export default {
     addTodo() {
       // 저장하는 로직
       if (this.newTodoItem !== '') {
-        this.$emit('addTodoItem', this.newTodoItem);
+        // this.$emit('addTodoItem', this.newTodoItem);
+        this.$store.commit('addOneItem', { todoItem: this.newTodoItem.trim() });
         this.clearInput();
       } else {
         this.showModal = true;
@@ -50,7 +51,7 @@ export default {
     },
   },
   components: {
-    TodoModal: TodoModal,
+    TodoModal,
   },
 };
 </script>
