@@ -1,15 +1,15 @@
 <template>
   <div class="clearAllcontainer shadow">
-    <span class="claarAllBtn" v-on:click="clearTodo">Clear All</span>
+    <span class="claarAllBtn" v-on:click="clearAllItem">Clear All</span>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   methods: {
-    clearTodo() {
-      this.$store.commit('clearAllItem');
-    },
+    ...mapMutations(['clearAllItem']),
   },
 };
 </script>

@@ -27,6 +27,7 @@
 
 <script>
 import TodoModal from './common/TodoModal.vue';
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -36,11 +37,12 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(['addOneItem']),
     addTodo() {
       // 저장하는 로직
       if (this.newTodoItem !== '') {
         // this.$emit('addTodoItem', this.newTodoItem);
-        this.$store.commit('addOneItem', { todoItem: this.newTodoItem.trim() });
+        this.addOneItem({ todoItem: this.newTodoItem.trim() });
         this.clearInput();
       } else {
         this.showModal = true;
